@@ -4,7 +4,7 @@
 
 **BalanceBuddy** is a smart budgeting app designed for two main user groups: **Families** and **Students**. It helps users manage income, track expenses, set savings goals, and build healthier money habits – all in one place. With visual tools, reminders, and collaborative features, BalanceBuddy makes personal and shared budgeting easy and engaging.
 
----
+--- 
 
 ## 👨‍👩‍👧‍👦 Family Budget Tracker
 
