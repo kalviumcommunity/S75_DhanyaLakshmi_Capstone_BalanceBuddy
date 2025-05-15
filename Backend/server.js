@@ -8,7 +8,7 @@ const userRoutes = require('./routes/userRoutes')
 
 const URI = process.env.URI;
 const PORT = process.env.PORT;
-app.use('/',userRoutes)
+app.use('/api',userRoutes)
 
 mongoose.connect(URI)
 .then(()=>{
