@@ -46,6 +46,34 @@ userRoutes.get('/signup',async(req,res)=>{
 });
 
 
+userRoutes.put('/signup/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const { name, mail, password } = req.body;
+
+
+        const updatedUser = await User.findByIdAndUpdate(userId,{ name, mail, password },{ new: true });
+        
+        if (!updatedUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        return res.status(200).json({
+            message: "User updated successfully",
+            user: updatedUser
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            error: "Something went wrong",
+            message: err.message
+        });
+    }
+});
+
+
+
+
 userRoutes.post('/login',async(req,res)=>{
     try{
         const {mail,password} = req.body;
@@ -86,6 +114,8 @@ userRoutes.get('/login',async(req,res)=>{
         })
     }
 })
+
+
 
 
 module.exports=userRoutes;
