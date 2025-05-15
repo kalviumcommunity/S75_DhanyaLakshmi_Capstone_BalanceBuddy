@@ -29,7 +29,7 @@ userRoutes.get('/signup',async(req,res)=>{
         const Users = await User.find();
         if(!Users){
             return res.status(400).json({
-                error:"Failed to Fetch"
+                error:"Failed to Fetch Data!"
             })
         }
         return res.status(200).json({
@@ -75,7 +75,7 @@ userRoutes.get('/login',async(req,res)=>{
             })
         }
         return res.status(200).json({
-            mess:"Successfully Fetched Logined User!",
+            mess:"Successfully Fetched Logined User's Data!",
             Data:users
         })
     }
