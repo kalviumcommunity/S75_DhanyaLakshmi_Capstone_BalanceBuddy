@@ -2,7 +2,7 @@ const express = require('express');
 const userRoutes = express.Router();
 const User =require('../model/userSchema');
 
-userRoutes.post('/test-signup',async(req,res)=>{
+userRoutes.post('/signup',async(req,res)=>{
     try{
         const{name,mail,password} = req.body;
         if(!name||!mail||!password){
@@ -24,7 +24,7 @@ userRoutes.post('/test-signup',async(req,res)=>{
     }
 });
 
-userRoutes.get('/test-signup',async(req,res)=>{
+userRoutes.get('/signup',async(req,res)=>{
     try{
         const Users = await User.find();
         if(!Users){
@@ -46,7 +46,7 @@ userRoutes.get('/test-signup',async(req,res)=>{
 });
 
 
-userRoutes.post('/test-login',async(req,res)=>{
+userRoutes.post('/login',async(req,res)=>{
     try{
         const {mail,password} = req.body;
         if(!mail||!password){
@@ -66,7 +66,7 @@ userRoutes.post('/test-login',async(req,res)=>{
     }
 });
 
-userRoutes.get('/test-login',async(req,res)=>{
+userRoutes.get('/login',async(req,res)=>{
     try{
         const users = await User.find();
         if(!users){
