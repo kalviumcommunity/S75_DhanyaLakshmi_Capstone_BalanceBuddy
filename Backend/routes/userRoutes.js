@@ -1,6 +1,10 @@
 const express = require('express');
 const userRoutes = express.Router();
 const User =require('../model/userSchema');
+const bcrypt=require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const JWT_SECRET = process.env.JWT_SECRET;
 
 userRoutes.post('/signup',async(req,res)=>{
     try{
@@ -10,7 +14,18 @@ userRoutes.post('/signup',async(req,res)=>{
                 error:"All fields are required"
             })
         }
-        const newUser = await User.create(req.body);
+        if(!mail.includes('@')){
+            return res.status(400).json({
+                error:"Not a valid E-mail!"
+            })
+        }
+        if(password<6){
+            return res.status(400).json({
+                error:"Password must be greater than 3!"
+            })
+        }
+        const hashedPassword=await bcrypt.hash(password,10);
+        const newUser = await User.create({name,mail,password:hashedPassword});
         return res.status(201).json({
             mess:"Successfully Signuped!",
             Data:newUser
@@ -82,8 +97,27 @@ userRoutes.post('/login',async(req,res)=>{
                 error:"Incorrect Password or Email"
             })
         }
+        const checkUser = await User.findOne({ mail });
+        if (!checkUser) {
+        return res.status(400).json({ err: "User Not Found" });
+        }
+  
+        const isMatch = await bcrypt.compare(password, checkUser.password);
+        if (!isMatch) {
+        return res.status(401).json({ Error: "Incorrect password or mail" });
+        }
+        const payload = { id: checkUser._id, name: checkUser.name };
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '12h' });
+  
+        res.cookie("token", token, {
+            httpOnly:"true",
+            sameSite: "Lax",
+            maxAge: 12 * 60 * 60 * 1000
+        });
+      
         return res.status(200).json({
-            mess:"Successfully Logined!"
+            mess:"Successfully Logined!",
+            token:token
         })
     }
     catch(err){
