@@ -107,12 +107,12 @@ userRoutes.post('/login',async(req,res)=>{
         return res.status(401).json({ Error: "Incorrect password or mail" });
         }
         const payload = { id: checkUser._id, name: checkUser.name };
-        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '12h' });
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '15h' });
   
         res.cookie("token", token, {
             httpOnly:"true",
             sameSite: "Lax",
-            maxAge: 12 * 60 * 60 * 1000
+            maxAge: 15 * 60 * 60 * 1000
         });
       
         return res.status(200).json({
