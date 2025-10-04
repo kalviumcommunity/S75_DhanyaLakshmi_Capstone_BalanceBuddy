@@ -1,6 +1,5 @@
 # BalanceBuddy – Keep Your Budget in Balance
 
-- *Frontend Deployment Link* :- https://balanbud.netlify.app/
 
 ## 💡 Project Idea: BalanceBuddy
 
@@ -91,6 +90,8 @@
 | Day 20 | Update Bruno/API templates in the repository |
 | Day 21 | Integrate JWT-based authentication |
 
+---
+- *Frontend Deployment Link* :- https://balanbud.netlify.app/
 ---
 
 
