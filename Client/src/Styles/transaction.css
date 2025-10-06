@@ -1,0 +1,124 @@
+.transaction-container {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 1rem;
+  }
+  
+  .summary {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .summary .card {
+    flex: 1;
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .card.income p {
+    font-size: medium;
+    color: #4CAF50; /* Bright green */
+  }
+  
+  .card.expense p {
+    font-size: medium;
+    color: #F44336; /* Vivid red */
+  }
+  
+  .card.balance p {
+    font-size: medium;
+    color: #2196F3; /* Cool blue */
+  }
+  
+  
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .actions button {
+    padding: 0.5rem 1rem;
+    background: royalblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tabs button {
+    padding: 0.5rem 1rem;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+  }
+  
+  .tabs button.active {
+    background: black;
+    color: white;
+  }
+  
+  .transaction-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .transaction-list li {
+    background: white;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .transaction-list li.income .amount {
+    color: green;
+  }
+  
+  .transaction-list li.expense .amount {
+    color: red;
+  }
+  
+  .transaction-list .amount button {
+    background: transparent;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+ 
+  /* Style the transaction title (e.g., Lottery) */
+.transaction-list .title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: #333;
+  text-decoration: none;  /* 🚫 Remove underline */
+}
+
+
+/* Style the date and category line */
+.transaction-list .details {
+  font-size: 0.9rem;        /* Slightly smaller */
+  color: #494949;              /* Muted grey tone */
+}
+
+/* Style the "Added by" line */
+.transaction-list .added-by {
+  font-size: 0.8rem;        /* Even smaller */
+  color: #727272;              /* Light grey */
+}

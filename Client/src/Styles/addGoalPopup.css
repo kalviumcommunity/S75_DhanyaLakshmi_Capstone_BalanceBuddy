@@ -1,0 +1,68 @@
+/* styles/addGoalPopup.css */
+
+.add-goal-popup {
+    background-color: #d0e8ff;
+    width: 400px;
+    padding: 25px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 40px auto;
+    font-family: 'Segoe UI', sans-serif;
+    position: relative;
+  }
+  
+  .add-goal-popup h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .add-goal-popup img {
+    width: 60px;
+    display: block;
+    margin: 0 auto 20px auto;
+  }
+  
+  .add-goal-popup form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-goal-popup label {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  .add-goal-popup input {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  
+  .add-goal-popup button {
+    margin-top: 20px;
+    background-color: #1679fa;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+  }
+  
+  .add-goal-popup button:hover {
+    background-color: #145ec9;
+  }
+  
+  .popup-close {
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+  }
+  
