@@ -6,6 +6,14 @@ meta {
 
 post {
   url: http://localhost:5000/api/signup
-  body: none
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "name": "JohnD",
+    "mail": "johnd@gmail.com",
+    "password": "johnd123"
+  }
 }

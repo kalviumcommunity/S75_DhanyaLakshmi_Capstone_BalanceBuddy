@@ -1,0 +1,145 @@
+.saving-goals-container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}
+
+/* Header */
+.saving-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.overall-progress-card {
+  background-color: #ffffff;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, #90CAF9, #1976D2);
+  transition: width 0.3s ease;
+}
+
+/* Add Button */
+.add-goal-button {
+  background-color: #3867d6;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  /* float: right; */
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-goal-button:hover {
+  background-color: #2952b3;
+}
+
+/* Cards Grid */
+.goal-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Individual Goal Card */
+.goal-card {
+  background: white;
+  border-radius: 12px;
+  /* padding: 1rem 1.2rem; */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.goal-card h5 {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  height: 30px;
+  
+}
+
+.goal-card small {
+  color: #4A5759;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.goal-card .progress-bar {
+  height: 6px;
+  background-color: #D9D9D9;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0.3rem 0;
+}
+
+.goal-card .progress-fill {
+  background: linear-gradient(to right, #90CAF9, #1976D2);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Actions */
+.goal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.update-btn,
+.delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.update-btn {
+  background-color: #ffd966;
+  color: #333;
+}
+
+.delete-btn {
+  background-color: #ff7f7f;
+  color: white;
+}
+

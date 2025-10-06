@@ -19,7 +19,7 @@ userRoutes.post('/signup',async(req,res)=>{
                 error:"Not a valid E-mail!"
             })
         }
-        if(password<6){
+        if(password.length < 6){
             return res.status(400).json({
                 error:"Password must be greater than 3!"
             })
@@ -97,9 +97,9 @@ userRoutes.post('/login',async(req,res)=>{
                 error:"Incorrect Password or Email"
             })
         }
-        const checkUser = await User.findOne({ mail });
+        const checkUser = await User.findOne({mail: mail});
         if (!checkUser) {
-        return res.status(400).json({ err: "User Not Found" });
+        return res.status(400).json({ err: "User Not Found", checkUser: password });
         }
   
         const isMatch = await bcrypt.compare(password, checkUser.password);
@@ -110,7 +110,7 @@ userRoutes.post('/login',async(req,res)=>{
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '15h' });
   
         res.cookie("token", token, {
-            httpOnly:"true",
+            httpOnly:true,
             sameSite: "Lax",
             maxAge: 15 * 60 * 60 * 1000
         });

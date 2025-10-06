@@ -1,0 +1,114 @@
+.login-container {
+    height: 100vh;
+    background-color: #bfdbfe;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .login-form h2 {
+    margin-bottom: 4px;
+    color: #2563eb;
+    text-align: center;
+    font-size: 24px;
+
+  }
+
+  .login-form p{
+    font-size: 14px;
+    color: #4b5563; /* gray-600 */
+    margin-top: 2px;
+    text-align: center;
+    
+  
+  }
+
+  .login-form input {
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  
+  .login-form .error {
+    color: rgb(17, 194, 85);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .login-form .message {
+    color: #ee1414;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .login-form button {
+    padding: 0.75rem;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .login-form button:hover {
+    background-color: #1e40af;
+  }
+
+  .or-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .or-divider hr {
+    flex: 1;
+    border: none;
+    border-top: 1px solid #d1d5db;
+  }
+  
+  .or-divider span {
+    color: #6b7280; /* gray-500 */
+    font-size: 14px;
+  }
+
+  .nextLine{
+    font-size: 14px;
+    color: #4b5563; /* gray-600 */
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .nextLine a{
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .nextLine a:hover{
+    text-decoration: underline;
+  }
+
+  .success {
+    color: green;
+  }
+  
+  .error {
+    color: red;
+  }
+  

@@ -1,0 +1,61 @@
+/* Sidebar overlay */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 95%;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border-radius: 0 20px 20px 0;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures equal spacing */
+  transition: transform 0.3s ease;
+}
+
+/* Sidebar content */
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1; /* Ensures buttons grow evenly */
+  justify-content: space-evenly; /* Even distribution of buttons */
+}
+
+.back-link {
+  font-size: 14px;
+  color: #4e89ff;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.sidebar-btn {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s;
+  flex-grow: 1; /* Makes buttons take equal space */
+}
+
+.sidebar-btn:hover {
+  transform: scale(1.02);
+}
+
+/* Button color classes */
+.pink { background-color: #f8a7a7; }
+.violet { background-color: #c6b2f2; }
+.blue { background-color: #9edcfb; }
+.green { background-color: #9fd3fb; }
+.red { background-color: #f7aab9; }
+.light-blue { background-color: #8ea2c8; }
+.light-pink { background-color: #f3a2c6; }
