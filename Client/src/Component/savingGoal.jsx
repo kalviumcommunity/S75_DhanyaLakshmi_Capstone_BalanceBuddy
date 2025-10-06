@@ -22,7 +22,7 @@ const SavingGoals = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/goal/')
+    axios.get('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/goal/')
       .then(res => {
         const parsedGoals = res.data.map(goal => ({
           ...goal,
@@ -50,7 +50,7 @@ const SavingGoals = () => {
       };
 
       if (isEditing) {
-        const res = await axios.put(`http://localhost:5000/api/goal/${editId}`, goalToSubmit);
+        const res = await axios.put(`https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/goal/${editId}`, goalToSubmit);
         const updatedGoal = {
           ...res.data,
           budget: Number(res.data.budget),
@@ -61,7 +61,7 @@ const SavingGoals = () => {
         setIsEditing(false);
         setEditId(null);
       } else {
-        const res = await axios.post('http://localhost:5000/api/goal', goalToSubmit);
+        const res = await axios.post('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/goal', goalToSubmit);
         const newAddedGoal = {
           ...res.data,
           budget: Number(res.data.budget),
@@ -97,7 +97,7 @@ const SavingGoals = () => {
   const handleDelete = async id => {
     if (window.confirm('Are you sure you want to delete this goal?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/goal/${id}`);
+        await axios.delete(`https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/goal/${id}`);
         setGoals(prev => prev.filter(g => g._id !== id));
       } catch (err) {
         console.error('Error deleting goal:', err);

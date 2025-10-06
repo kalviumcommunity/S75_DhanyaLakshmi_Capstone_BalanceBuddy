@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/login.css';
+import '../Styles/Login.css';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ const Login = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const res = await fetch('http://localhost:5000/api/login', {
+        const res = await fetch('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

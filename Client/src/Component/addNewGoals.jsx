@@ -21,7 +21,7 @@ const AddNewGoal = () => {
     e.preventDefault();
     console.log('Submitting formData:', formData);  // Debug log
     try {
-      await axios.post('http://localhost:5000/api/goal', formData);
+      await axios.post('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/goal', formData);
       navigate('/family/goals');  // or '/saving-goals'
     } catch (err) {
       console.error('Error submitting new goal:', err);

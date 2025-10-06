@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../Styles/transaction.css";
@@ -71,7 +72,7 @@ export default function Transaction() {
     setLoading(true);
     try {
       console.log("Fetching transactions...");
-      const res = await axios.get("http://localhost:5000/api/transactions", {
+      const res = await axios.get("https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/transactions", {
         withCredentials: true,
       });
       console.log("Transactions received:", res.data);
@@ -102,7 +103,7 @@ export default function Transaction() {
     setLoading(true);
     try {
       await axios.post(
-        "http://localhost:5000/api/transactions",
+        "https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/transactions",
         formData,
         { withCredentials: true }
       );
@@ -137,7 +138,7 @@ export default function Transaction() {
     try {
       console.log("Uploading PDF...");
       await axios.post(
-        "http://localhost:5000/api/transactions/upload",
+        "https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/transactions/upload",
         formDataObj,
         {
           headers: { "Content-Type": "multipart/form-data" },

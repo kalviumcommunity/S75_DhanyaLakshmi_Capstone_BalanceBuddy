@@ -27,9 +27,9 @@ const FamilyDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       const [budgetRes, goalsRes, txnsRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/dashboard/budget', { withCredentials: true }),
-        axios.get('http://localhost:5000/api/dashboard/goal', { withCredentials: true }),
-        axios.get('http://localhost:5000/api/dashboard/transaction', { withCredentials: true }),
+        axios.get('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/dashboard/budget', { withCredentials: true }),
+        axios.get('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/dashboard/goal', { withCredentials: true }),
+        axios.get('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/dashboard/transaction', { withCredentials: true }),
       ]);
 
       const { total, expenses } = budgetRes.data || { total: 0, expenses: 0 };
@@ -53,7 +53,7 @@ const FamilyDashboard = () => {
 
   const handleSave = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/api/dashboard/budget', formData, { withCredentials: true });
+      const res = await axios.post('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/dashboard/budget', formData, { withCredentials: true });
       const { total, expenses } = res.data;
       setBudgetData({ total, expenses, remaining: total - expenses });
       alert("Budget updated successfully!");

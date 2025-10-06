@@ -37,7 +37,7 @@ const AddTransactionForm = ({ onClose, userId, userName, refresh }) => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/transactions", dataToSend, {
+      await axios.post("https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/transactions", dataToSend, {
         withCredentials: true,
       });
       alert("Transaction Added");

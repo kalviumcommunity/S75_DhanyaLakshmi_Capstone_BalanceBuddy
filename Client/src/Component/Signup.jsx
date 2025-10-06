@@ -35,7 +35,7 @@ const Signup = () => {
       console.log('Form submitted', formData);
       // you can send data to your backend here
 
-      const response = await fetch('http://localhost:5000/api/signup',{
+      const response = await fetch('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/signup',{
         method: "POST",
         headers: {"Content-Type":"application/json"},
         credentials: "include",
