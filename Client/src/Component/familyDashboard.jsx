@@ -3,8 +3,8 @@ import { FaBars } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Sidebar from './sideBar';
-import '../styles/familyDashboard.css';
-import '../styles/Sidebar.css';
+import '../Styles/FamilyDashboard.css';
+import '../Styles/Sidebar.css';
 
 const FamilyDashboard = () => {
   const navigate = useNavigate();

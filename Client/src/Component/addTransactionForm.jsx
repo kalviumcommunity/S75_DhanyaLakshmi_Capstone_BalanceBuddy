@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/addTransaction.css";
+import "../Styles/addTransaction.css";
 import axios from "axios";
 
 const AddTransactionForm = ({ onClose, userId, userName, refresh }) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/savingGoals.css';
-import '../styles/addGoalPopup.css';
+import '../Styles/savingGoals.css';
+import '../Styles/addGoalPopup.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaArrowLeft } from 'react-icons/fa';
