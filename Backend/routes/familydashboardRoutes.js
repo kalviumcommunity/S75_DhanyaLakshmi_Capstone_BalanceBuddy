@@ -1,7 +1,7 @@
 const express = require('express');
 const dashboardRoutes = express.Router();
-const { Budget, Goal } = require('../Model/dashboard');
-const TransactionMain = require('../Model/transaction');
+const { Budget, Goal } = require('../model/dashboard');
+const TransactionMain = require('../model/transaction');
 const verifyToken = require('../middleware/auth');
 
 // GET budget

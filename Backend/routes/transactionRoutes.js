@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Transaction = require("../Model/transaction");
+const Transaction = require("../model/transaction");
 const auth = require("../middleware/auth");
 const multer = require("multer");
 const fs = require("fs");

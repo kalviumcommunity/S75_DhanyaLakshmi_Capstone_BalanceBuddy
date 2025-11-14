@@ -1,6 +1,6 @@
 const express = require('express');
 const router  = express.Router();
-const Goal    = require('../Model/goalSchema');
+const Goal    = require('../model/goalSchema');
 
 // Create new goal
 router.post('/goal', async (req, res) => {
