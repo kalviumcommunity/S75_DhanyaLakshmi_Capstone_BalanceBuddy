@@ -15,7 +15,7 @@ app.use(cookieParser());
 const cors = require('cors');
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://s75-dhanyalakshmi-capstone-balancebuddy-client.onrender.com'],
+  origin: ['http://localhost:5173'],
   credentials: true
 }))
 
