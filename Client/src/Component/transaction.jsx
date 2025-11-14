@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import api from "../utils/axiosConfig";
 import "../Styles/transaction.css";
 
 export default function Transaction() {
@@ -72,11 +73,9 @@ export default function Transaction() {
     setLoading(true);
     try {
       console.log("Fetching transactions...");
-      const res = await axios.get("https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/transactions", {
-        withCredentials: true,
-      });
+      const res = await api.get("/transactions");
       console.log("Transactions received:", res.data);
-      setTransactions(res.data);
+      setTransactions(res.data?.data || []);
       setError(null);
     } catch (err) {
       console.error("Fetch transactions error:", err);
@@ -92,7 +91,7 @@ export default function Transaction() {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === 'category' ? value.toLowerCase() : value,
     }));
     console.log(formData)
   };
@@ -102,11 +101,7 @@ export default function Transaction() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(
-        "https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/transactions",
-        formData,
-        { withCredentials: true }
-      );
+      await api.post("/transactions", formData);
       alert("Transaction added successfully!");
       setFormData({
         title: "",
@@ -137,12 +132,11 @@ export default function Transaction() {
 
     try {
       console.log("Uploading PDF...");
-      await axios.post(
-        "https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/transactions/upload",
+      await api.post(
+        "/transactions/upload",
         formDataObj,
         {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" }
         }
       );
       alert("PDF uploaded successfully!");
@@ -163,10 +157,11 @@ export default function Transaction() {
   }, []);
 
   // Calculate totals
-  const totalIncome = transactions
+  const txns = Array.isArray(transactions) ? transactions : [];
+  const totalIncome = txns
     .filter((t) => t.type === "income")
     .reduce((sum, t) => sum + Number(t.amount), 0);
-  const totalExpense = transactions
+  const totalExpense = txns
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + Number(t.amount), 0);
   const balance = totalIncome - totalExpense;
@@ -217,95 +212,142 @@ export default function Transaction() {
 
       {/* Manual Entry Section */}
       {mode === "manual" && (
-        <form onSubmit={handleSubmit} className="mb-6 flex flex-col gap-2">
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            value={formData.title}
-            onChange={handleChange}
-            className="border px-2 py-1 rounded"
-            required
-          />
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={formData.description}
-            onChange={handleChange}
-            className="border px-2 py-1 rounded"
-            rows="10"
-          />
-          <select
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            className="border px-2 py-1 rounded"
-            required
-          >
-            <option value="">Select type</option>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-          </select>
-          <input
-            type="text"
-            name="category"
-            placeholder="Category"
-            value={formData.category}
-            onChange={handleChange}
-            className="border px-2 py-1 rounded"
-            required
-          />
-          <input
-            type="number"
-            name="amount"
-            placeholder="Amount"
-            value={formData.amount}
-            onChange={handleChange}
-            className="border px-2 py-1 rounded"
-            required
-          />
-          <input
-            type="date"
-            name="date"
-            placeholder="Date"
-            value={formData.date}
-            onChange={handleChange}
-            className="border px-2 py-1 rounded"
-            required
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-green-500 text-white px-4 py-2 rounded disabled:opacity-50"
-          >
-            {loading ? "Adding..." : "Add Transaction"}
-          </button>
+        <form onSubmit={handleSubmit} className="tx-form-card">
+          <div className="tx-form-grid">
+            <div>
+              <label className="tx-label" htmlFor="title">Title</label>
+              <input
+                id="title"
+                type="text"
+                name="title"
+                placeholder="e.g., Dinner, Salary, Groceries"
+                value={formData.title}
+                onChange={handleChange}
+                className="tx-input"
+                required
+              />
+            </div>
+            <div>
+              <label className="tx-label" htmlFor="type">Type</label>
+              <select
+                id="type"
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+                className="tx-select"
+                required
+              >
+                <option value="">Select type</option>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
+            <div>
+              <label className="tx-label" htmlFor="category">Category</label>
+              <select
+                id="category"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="tx-select"
+                required
+              >
+                <option value="">Select category</option>
+                <option value="food">Food</option>
+                <option value="bills">Bills</option>
+                <option value="salary">Salary</option>
+                <option value="shopping">Shopping</option>
+                <option value="transportation">Transportation</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="tx-label" htmlFor="amount">Amount</label>
+              <input
+                id="amount"
+                type="number"
+                name="amount"
+                placeholder="Amount"
+                value={formData.amount}
+                onChange={handleChange}
+                className="tx-number"
+                required
+              />
+            </div>
+            <div>
+              <label className="tx-label" htmlFor="date">Date</label>
+              <input
+                id="date"
+                type="date"
+                name="date"
+                placeholder="Date"
+                value={formData.date}
+                onChange={handleChange}
+                className="tx-date"
+                required
+              />
+            </div>
+            <div className="full">
+              <label className="tx-label" htmlFor="description">Description</label>
+              <textarea
+                id="description"
+                name="description"
+                placeholder="Optional notes"
+                value={formData.description}
+                onChange={handleChange}
+                className="tx-textarea"
+                rows="6"
+              />
+            </div>
+          </div>
+          <div className="tx-actions">
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-secondary"
+            >
+              {loading ? "Adding..." : "Add Transaction"}
+            </button>
+          </div>
         </form>
       )}
 
       {/* PDF Upload Section */}
       {mode === "pdf" && (
-        <form onSubmit={handleUpload} className="mb-6 flex flex-col gap-2">
-          <input
-            type="file"
-            accept=".pdf"
-            onChange={(e) => setFile(e.target.files[0])}
-            className="mb-2"
-          />
-          <input
-            type="password"
-            placeholder="Enter PDF password (if required)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border px-2 py-1 rounded"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
-          >
-            {loading ? "Uploading PDF..." : "Upload PDF"}
-          </button>
+        <form onSubmit={handleUpload} className="tx-form-card">
+          <div className="tx-form-grid">
+            <div className="full">
+              <label className="tx-label" htmlFor="pdfFile">Bank Statement (PDF)</label>
+              <input
+                id="pdfFile"
+                type="file"
+                accept=".pdf"
+                onChange={(e) => setFile(e.target.files[0])}
+                className="tx-file"
+              />
+            </div>
+            <div>
+              <label className="tx-label" htmlFor="pdfPwd">PDF Password (optional)</label>
+              <input
+                id="pdfPwd"
+                type="password"
+                placeholder="Enter PDF password (if required)"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="tx-password"
+              />
+            </div>
+          </div>
+          <div className="tx-actions">
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary"
+            >
+              {loading ? "Uploading PDF..." : "Upload PDF"}
+            </button>
+          </div>
         </form>
       )}
 
@@ -329,36 +371,42 @@ export default function Transaction() {
 
       {/* All Transactions */}
       <h2 className="text-xl font-semibold mt-6">All Transactions</h2>
-      <ul className="transaction-list">
-        {transactions.map((t) => {
-          const isExpense = t.type === "expense";
-          const isIncome = t.type === "income";
-          return (
-            <li
-              key={t._id}
-              className={isExpense ? "expense" : "income"}
-            >
-              <div>
-                <span className="title">{t.title}</span>
-                <div className="details">
-                  {t.date ? new Date(t.date).toLocaleDateString() : ""}{" "}
-                  {t.time ? t.time : ""} | {t.category}
-                </div>
-                <div className="added-by">Added by: {t.addedBy}</div>
-              </div>
-              <span
-                className="amount"
-                style={{
-                  color: isIncome ? "green" : "red",
-                  fontWeight: "bold",
-                }}
+      {transactions.length === 0 ? (
+        <div className="no-transactions" style={{ padding: "2rem", textAlign: "center", backgroundColor: "#f9f9f9", borderRadius: "8px", margin: "1rem 0" }}>
+          <p style={{ fontSize: "1.1rem", color: "#666" }}>No transactions found. Add a transaction to get started!</p>
+        </div>
+      ) : (
+        <ul className="transaction-list">
+          {transactions.map((t) => {
+            const isExpense = t.type === "expense";
+            const isIncome = t.type === "income";
+            return (
+              <li
+                key={t._id}
+                className={isExpense ? "expense" : "income"}
               >
-                {isIncome ? "+" : "-"}₹{t.amount}
-              </span>
-            </li>
-          );
-        })}
-      </ul>
+                <div>
+                  <span className="title">{t.title}</span>
+                  <div className="details">
+                    {t.date ? new Date(t.date).toLocaleDateString() : ""}{" "}
+                    {t.time ? t.time : ""} | {t.category}
+                  </div>
+                  <div className="added-by">Added by: {t.addedBy}</div>
+                </div>
+                <span
+                  className="amount"
+                  style={{
+                    color: isIncome ? "green" : "red",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {isIncome ? "+" : "-"}₹{t.amount}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }

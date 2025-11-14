@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import "../Styles/addTransaction.css";
 import axios from "axios";
+import api from "../utils/axiosConfig";
 
 const AddTransactionForm = ({ onClose, userId, userName, refresh }) => {
   const [formData, setFormData] = useState({
     title: "",
     amount: "",
     category: "",
-    date: "",
-    type: "",
+    date: new Date().toISOString().split('T')[0],
+    type: "expense", // Default to expense
   });
 
   const handleChange = (e) => {
@@ -30,16 +31,16 @@ const AddTransactionForm = ({ onClose, userId, userName, refresh }) => {
     }
 
     const dataToSend = {
-      ...formData,
+      title: formData.title, // Will be used as description in the backend
+      description: formData.title, // Using title as description
       amount: parsedAmount,
-      userId,
-      addedBy: userName,
+      category: formData.category,
+      type: formData.type,
+      date: formData.date,
     };
 
     try {
-      await axios.post("https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/transactions", dataToSend, {
-        withCredentials: true,
-      });
+      await api.post("/transactions", dataToSend);
       alert("Transaction Added");
       refresh();
       onClose();
@@ -80,6 +81,31 @@ const AddTransactionForm = ({ onClose, userId, userName, refresh }) => {
             required
           />
 
+          <label>Transaction Type</label>
+          <div className="transaction-type">
+            <label>
+              <input
+                type="radio"
+                name="type"
+                value="expense"
+                checked={formData.type === 'expense'}
+                onChange={handleChange}
+                required
+              />
+              <span>Expense</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="type"
+                value="income"
+                checked={formData.type === 'income'}
+                onChange={handleChange}
+              />
+              <span>Income</span>
+            </label>
+          </div>
+
           <label htmlFor="category">Category</label>
           <select
             id="category"
@@ -89,11 +115,13 @@ const AddTransactionForm = ({ onClose, userId, userName, refresh }) => {
             required
           >
             <option value="">Select a category</option>
-            <option value="Food">Food</option>
-            <option value="Bills">Bills</option>
-            <option value="Salary">Salary</option>
-            <option value="Lottery">Lottery</option>
-            <option value="Shopping">Shopping</option>
+            <option value="food">Food</option>
+            <option value="bills">Bills</option>
+            <option value="salary">Salary</option>
+            <option value="shopping">Shopping</option>
+            <option value="transportation">Transportation</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="other">Other</option>
           </select>
 
           <label htmlFor="date">Date</label>

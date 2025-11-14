@@ -18,27 +18,63 @@ const SavingGoals = () => {
     budget: '',
     saved: ''
   });
+  const [successMsg, setSuccessMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
+  const fetchGoals = async () => {
+    setLoading(true);
+    setErrorMsg('');
+    try {
+      const res = await axios.get(
+        'https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/goal/',
+        { timeout: 15000 }
+      );
+      const parsedGoals = res.data.map(goal => ({
+        ...goal,
+        budget: Number(goal.budget),
+        saved: Number(goal.saved)
+      }));
+      setGoals(parsedGoals);
+    } catch (err) {
+      console.error('Error fetching goals:', err);
+      const msg = err?.code === 'ECONNABORTED'
+        ? 'Request timed out. Please try again.'
+        : (err.response?.data?.message || 'Unable to reach the server. Please try again.');
+      setErrorMsg(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    axios.get('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/goal/')
-      .then(res => {
-        const parsedGoals = res.data.map(goal => ({
-          ...goal,
-          budget: Number(goal.budget),
-          saved: Number(goal.saved)
-        }));
-        setGoals(parsedGoals);
-      })
-      .catch(err => console.error('Error fetching goals:', err));
+    fetchGoals();
   }, []);
+
+  useEffect(() => {
+    if (!successMsg) return;
+    const t = setTimeout(() => setSuccessMsg(''), 2500);
+    return () => clearTimeout(t);
+  }, [successMsg]);
 
   const totalSaved = goals.reduce((sum, g) => sum + g.saved, 0);
   const totalBudget = goals.reduce((sum, g) => sum + g.budget, 0);
   const overallProgress = totalBudget
     ? ((totalSaved / totalBudget) * 100).toFixed(1)
     : 0;
+
+  const getObjectIdDate = (id) => {
+    try {
+      if (!id || typeof id !== 'string' || id.length < 8) return null;
+      const ts = parseInt(id.substring(0, 8), 16);
+      if (Number.isNaN(ts)) return null;
+      return new Date(ts * 1000);
+    } catch {
+      return null;
+    }
+  };
 
   const handleAddOrUpdateGoal = async e => {
     e.preventDefault();
@@ -57,9 +93,16 @@ const SavingGoals = () => {
           saved: Number(res.data.saved)
         };
         setGoals(prev => prev.map(g => g._id === editId ? updatedGoal : g));
-        setShowForm(false);
-        setIsEditing(false);
-        setEditId(null);
+        // Keep form open with current values after update
+        setNewGoal({
+          name: updatedGoal.name?.toString() || '',
+          target: updatedGoal.target?.toString() || '',
+          startingDate: updatedGoal.startingDate ? updatedGoal.startingDate.slice(0,10) : '',
+          updatedDate: updatedGoal.updatedDate ? updatedGoal.updatedDate.slice(0,10) : '',
+          budget: updatedGoal.budget?.toString() || '',
+          saved: updatedGoal.saved?.toString() || ''
+        });
+        setSuccessMsg('Updated!');
       } else {
         const res = await axios.post('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/goal', goalToSubmit);
         const newAddedGoal = {
@@ -72,7 +115,9 @@ const SavingGoals = () => {
       }
 
       // Reset form after submit
-      setNewGoal({ name: '', target: '', startingDate: '', updatedDate: '', budget: '', saved: '' });
+      if (!isEditing) {
+        setNewGoal({ name: '', target: '', startingDate: '', updatedDate: '', budget: '', saved: '' });
+      }
 
     } catch (err) {
       console.error('Error saving goal:', err);
@@ -116,6 +161,53 @@ const SavingGoals = () => {
           <FaArrowLeft /> Saving Goals
         </h2>
       </header>
+      {successMsg && (
+        <div
+          style={{
+            backgroundColor: '#e6f7ea',
+            color: '#237804',
+            border: '1px solid #b7eb8f',
+            padding: '8px 12px',
+            borderRadius: '8px',
+            marginBottom: '12px',
+            fontWeight: 600
+          }}
+        >
+          {successMsg}
+        </div>
+      )}
+
+      {errorMsg && (
+        <div
+          style={{
+            backgroundColor: '#fff1f0',
+            color: '#a8071a',
+            border: '1px solid #ffa39e',
+            padding: '8px 12px',
+            borderRadius: '8px',
+            marginBottom: '12px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}
+        >
+          <span>{errorMsg}</span>
+          <button
+            onClick={fetchGoals}
+            style={{
+              marginLeft: '12px',
+              background: '#a8071a',
+              color: '#fff',
+              border: 'none',
+              padding: '6px 10px',
+              borderRadius: '6px',
+              cursor: 'pointer'
+            }}
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       <div className="overall-progress-card">
         <div className="progress-info">
@@ -139,23 +231,42 @@ const SavingGoals = () => {
         + Add New Goals
       </button>
 
+      {loading && <div>Loading...</div>}
       <div className="goal-cards-grid">
         {goals.map(goal => {
-          const pct = goal.budget ? Math.round((goal.saved / goal.budget) * 100) : 0;
-          const rem = goal.budget - goal.saved;
+          const rawPct = goal.budget ? (Number(goal.saved) / Number(goal.budget)) * 100 : 0;
+          const pctLabel = rawPct.toFixed(1);
+          const rem = (Number(goal.budget) || 0) - (Number(goal.saved) || 0);
+
+          const idDerived = getObjectIdDate(goal._id);
+          const startRaw = goal.startingDate || goal.createdAt || idDerived;
+          const startDate = startRaw ? new Date(startRaw) : null;
+          const updatedExplicitRaw = goal.updatedDate || null; // only use explicit updatedDate for label
+          const updatedExplicitDate = updatedExplicitRaw ? new Date(updatedExplicitRaw) : null;
+          const isValidDate = (d) => d instanceof Date && !isNaN(d.getTime());
+          const endForDuration = isValidDate(updatedExplicitDate) ? updatedExplicitDate : new Date();
+          const durationDays = isValidDate(startDate)
+            ? Math.max(0, Math.ceil((endForDuration - startDate) / (1000 * 60 * 60 * 24)))
+            : (goal.target ? Number(goal.target) : 0);
           return (
             <div className="goal-card" key={goal._id}>
               <h5>{goal.name}</h5>
               <small>
-                Duration: {goal.target} days | Started Date: {goal.startingDate ? new Date(goal.startingDate).toLocaleDateString() : 'N/A'}
+                Duration: {durationDays} days | Started: {isValidDate(startDate) ? startDate.toLocaleDateString() : 'N/A'} | Updated: {isValidDate(updatedExplicitDate) ? updatedExplicitDate.toLocaleDateString() : 'N/A'}
               </small>
               <small>
-                Budget: ₹{goal.budget.toLocaleString()} | Saved: ₹{goal.saved.toLocaleString()}
+                Budget: ₹{(goal.budget || 0).toLocaleString()} | Saved: ₹{(goal.saved || 0).toLocaleString()}
               </small>
               <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${pct}%` }} />
+                <div
+                  className="progress-fill"
+                  style={{
+                    width: `${Math.max(0, Math.min(100, rawPct)).toFixed(1)}%`,
+                    minWidth: rawPct > 0 && rawPct < 1 ? '4px' : undefined
+                  }}
+                />
               </div>
-              <small>{pct}% Completed</small>
+              <small>{pctLabel}% Completed</small>
               <small>Remaining: ₹{rem.toLocaleString()}</small>
 
               <div className="goal-actions">

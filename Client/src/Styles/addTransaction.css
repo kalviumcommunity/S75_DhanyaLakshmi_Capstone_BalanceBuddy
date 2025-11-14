@@ -47,7 +47,33 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
   
-  .transaction-modal .button-group {
+  /* Transaction Type Radio Buttons */
+.transaction-type {
+  display: flex;
+  gap: 20px;
+  margin: 10px 0;
+}
+
+.transaction-type label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.transaction-type input[type="radio"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.transaction-type span {
+  position: relative;
+  top: -1px;
+}
+
+.transaction-modal .button-group {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;

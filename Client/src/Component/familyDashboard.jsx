@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaBars } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import api from '../utils/axiosConfig';
 import Sidebar from './sideBar';
 import '../Styles/FamilyDashboard.css';
 import '../Styles/Sidebar.css';
@@ -27,16 +28,17 @@ const FamilyDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       const [budgetRes, goalsRes, txnsRes] = await Promise.all([
-        axios.get('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/dashboard/budget', { withCredentials: true }),
-        axios.get('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/dashboard/goal', { withCredentials: true }),
-        axios.get('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/dashboard/transaction', { withCredentials: true }),
+        api.get('/dashboard/budget'),
+        api.get('/dashboard/goal'),
+        api.get('/dashboard/transaction?limit=4'),
       ]);
 
       const { total, expenses } = budgetRes.data || { total: 0, expenses: 0 };
       setBudgetData({ total, expenses, remaining: total - expenses });
       setFormData({ total, expenses });
       setSavingsGoals(goalsRes.data);
-      setRecentTxns(txnsRes.data);
+      const txns = Array.isArray(txnsRes.data) ? txnsRes.data.slice(0,4) : [];
+      setRecentTxns(txns);
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
       setBudgetData({ total: 0, expenses: 0, remaining: 0 });
@@ -53,7 +55,7 @@ const FamilyDashboard = () => {
 
   const handleSave = async () => {
     try {
-      const res = await axios.post('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/dashboard/budget', formData, { withCredentials: true });
+      const res = await api.post('/dashboard/budget', formData);
       const { total, expenses } = res.data;
       setBudgetData({ total, expenses, remaining: total - expenses });
       alert("Budget updated successfully!");

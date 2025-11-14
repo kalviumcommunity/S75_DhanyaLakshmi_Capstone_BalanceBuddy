@@ -69,6 +69,24 @@
     background: black;
     color: white;
   }
+
+  /* Tabs refined */
+  .tabs {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  .tabs button {
+    background: #f3f4f6;
+    border: none;
+    color: #111827;
+    font-weight: 600;
+  }
+  .tabs button.active {
+    background: #111827;
+    color: #ffffff;
+  }
   
   .transaction-list {
     list-style: none;
@@ -122,3 +140,63 @@
   font-size: 0.8rem;        /* Even smaller */
   color: #727272;              /* Light grey */
 }
+
+  /* Transaction Form Card */
+  .tx-form-card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 1.25rem;
+  }
+  .tx-form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  @media (min-width: 768px) {
+    .tx-form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .tx-form-grid .full {
+      grid-column: 1 / -1;
+    }
+  }
+  .tx-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #1f2937;
+  }
+  .tx-input, .tx-select, .tx-textarea, .tx-file, .tx-password, .tx-date, .tx-number {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #cbd5e0;
+    background: #ffffff;
+    font-size: 0.95rem;
+  }
+  .tx-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .btn-primary {
+    background: #1976D2;
+    color: #ffffff;
+    border: none;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-secondary {
+    background: #38a169;
+    color: #ffffff;
+    border: none;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
