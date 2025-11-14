@@ -6,11 +6,8 @@ const BudgetSchema = new mongoose.Schema({
   remaining: Number,
 }, { collection: 'budgets' });
 
-const GoalSchema = new mongoose.Schema({
-  name: String,
-  budget: Number,
-  saved: Number,
-}, { collection: 'goals' });
+// Reuse the main Goal model to ensure consistent schema (with dates, etc.)
+const Goal = require('./goalSchema');
 
 const TransactionSchema = new mongoose.Schema({
   title: String,
@@ -24,7 +21,6 @@ const TransactionSchema = new mongoose.Schema({
 
 // Check if the models already exist to prevent overwriting
 const Budget = mongoose.models.Budget || mongoose.model('Budget', BudgetSchema);
-const Goal = mongoose.models.Goal || mongoose.model('Goal', GoalSchema);
 const Transaction = mongoose.models.Transaction || mongoose.model('Transaction', TransactionSchema);
 
 module.exports = { Budget, Goal, Transaction };

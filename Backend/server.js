@@ -15,9 +15,9 @@ app.use(cookieParser());
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true,
-}));
+  origin: ['http://localhost:5173', 'https://s75-dhanyalakshmi-capstone-balancebuddy-client.onrender.com'],
+  credentials: true
+}))
 
 
 const URI = process.env.URI;
@@ -27,6 +27,9 @@ app.use('/api',userRoutes);
 app.use('/api/transactions',transactionRoute);
 app.use('/api/dashboard',dashboardRoutes);
 app.use('/api',goalRoutes);
+app.get('/',(req,res)=>{
+    res.send("Welcome to Balance Buddy")
+})
 
 mongoose.connect(URI)
 .then(()=>{

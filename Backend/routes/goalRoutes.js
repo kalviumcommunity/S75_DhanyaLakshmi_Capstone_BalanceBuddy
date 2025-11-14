@@ -1,6 +1,6 @@
 const express = require('express');
 const router  = express.Router();
-const Goal    = require('../model/goalSchema');
+const Goal    = require('../Model/goalSchema');
 
 // Create new goal
 router.post('/goal', async (req, res) => {
@@ -67,14 +67,7 @@ router.delete('/goal/:id', async (req, res) => {
     }
   });
 
-  router.get('/goal', async (req, res) => {
-    try {
-      const goals = await Goal.find(); // Add filter if you use userID
-      res.json(goals);
-    } catch (err) {
-      res.status(500).json({ message: 'Failed to fetch goals' });
-    }
-  });
+  // removed duplicate GET /goal
   
   
 

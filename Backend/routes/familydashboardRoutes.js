@@ -1,7 +1,7 @@
 const express = require('express');
 const dashboardRoutes = express.Router();
-const { Budget, Goal } = require('../model/dashboard');
-const TransactionMain = require('../model/transaction');
+const { Budget, Goal } = require('../Model/dashboard');
+const TransactionMain = require('../Model/transaction');
 const verifyToken = require('../middleware/auth');
 
 // GET budget
@@ -58,7 +58,11 @@ dashboardRoutes.get('/goal', async (req, res) => {
 dashboardRoutes.get('/transaction', verifyToken, async (req, res) => {
   try {
     const userId = req.user.id;
-    const txns = await TransactionMain.find({ userId }).sort({ date: -1, _id: -1 }).limit(5);
+    const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 4, 1), 10);
+    const txns = await TransactionMain
+      .find({ userId })
+      .sort({ date: -1, _id: -1 })
+      .limit(limit);
     res.json(txns);
   } catch (err) {
     res.status(500).json({ error: 'Server error' });

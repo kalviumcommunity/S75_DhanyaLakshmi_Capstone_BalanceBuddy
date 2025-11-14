@@ -109,9 +109,11 @@ userRoutes.post('/login',async(req,res)=>{
         const payload = { id: checkUser._id, name: checkUser.name };
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '15h' });
   
+        const isProd = process.env.NODE_ENV === 'production';
         res.cookie("token", token, {
-            httpOnly:true,
-            sameSite: "Lax",
+            httpOnly: true,
+            sameSite: isProd ? "None" : "Lax",
+            secure: isProd,
             maxAge: 15 * 60 * 60 * 1000
         });
       
