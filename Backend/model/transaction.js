@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// Check if model exists
+
 if (mongoose.models.Transaction) {
   module.exports = mongoose.model('Transaction');
 } else {
@@ -17,7 +17,7 @@ if (mongoose.models.Transaction) {
       amount: { 
         type: Number, 
         required: [true, 'Amount is required'],
-        min: [0, 'Amount cannot be negative']
+        min: [0, 'Amount cannot be negative' ]
       },
       category: { 
         type: String, 
@@ -51,11 +51,11 @@ if (mongoose.models.Transaction) {
     }
   );
 
-  // Indexes for better query performance
+ 
   transactionSchema.index({ userId: 1, date: -1 });
   transactionSchema.index({ userId: 1, type: 1 });
 
-  // Create and export the model
+ 
   const Transaction = mongoose.model('Transaction', transactionSchema);
   module.exports = Transaction;
 }
