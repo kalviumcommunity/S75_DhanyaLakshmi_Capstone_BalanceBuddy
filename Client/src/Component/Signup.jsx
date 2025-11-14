@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../Styles/Signup.css';
+import '../Styles/signup.css';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
@@ -35,7 +35,7 @@ const Signup = () => {
       console.log('Form submitted', formData);
       // you can send data to your backend here
 
-      const response = await fetch('https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api/signup',{
+      const response = await fetch('https://s75-dhanyalakshmi-capstone-balancebuddy.onrender.com',{
         method: "POST",
         headers: {"Content-Type":"application/json"},
         credentials: "include",

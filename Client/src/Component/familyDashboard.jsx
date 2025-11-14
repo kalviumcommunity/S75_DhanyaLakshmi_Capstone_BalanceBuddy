@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import api from '../utils/axiosConfig';
 import Sidebar from './sideBar';
-import '../Styles/FamilyDashboard.css';
+import '../Styles/familyDashboard.css';
 import '../Styles/Sidebar.css';
 
 const FamilyDashboard = () => {

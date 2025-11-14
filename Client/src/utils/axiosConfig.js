@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create a reusable axios instance with credentials configuration
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Use localhost for development
+  baseURL: 'https://s75-dhanyalakshmi-capstone-balancebuddy.onrender.com/api', // Use localhost for development
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
@@ -11,7 +11,7 @@ const api = axios.create({
 
 // For production, you can uncomment and use this instead:
 // const api = axios.create({
-//   baseURL: 'https://s75-dhanyalakshmi-capstone-balancebuddy-7gi5.onrender.com/api',
+//   baseURL: 'https://s75-dhanyalakshmi-capstone-balancebuddy.onrender.com/api',
 //   withCredentials: true,
 //   headers: {
 //     'Content-Type': 'application/json',
