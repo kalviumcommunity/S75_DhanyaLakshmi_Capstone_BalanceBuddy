@@ -15,9 +15,12 @@ app.use(cookieParser());
 const cors = require('cors');
 
 app.use(cors({
-  origin: ['http://localhost:5173'],
-  credentials: true
-}))
+  origin: ["http://localhost:5173", "https://babuddy.netlify.app"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 
 
 const URI = process.env.URI;

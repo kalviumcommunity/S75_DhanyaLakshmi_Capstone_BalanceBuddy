@@ -112,8 +112,8 @@ userRoutes.post('/login',async(req,res)=>{
         const isProd = process.env.NODE_ENV === 'production';
         res.cookie("token", token, {
             httpOnly: true,
-            sameSite: isProd ? "None" : "Lax",
-            secure: isProd,
+            sameSite: "None",
+            secure: true,
             maxAge: 15 * 60 * 60 * 1000
         });
       
