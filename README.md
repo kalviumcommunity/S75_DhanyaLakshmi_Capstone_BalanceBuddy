@@ -1,7 +1,7 @@
 # BalanceBuddy – Keep Your Budget in Balance
 
 
-*Frontend Deployment Link* :- https://balanbud.netlify.app/
+*Frontend Deployment Link* :- https://babuddy.netlify.app
 
 
 ## 💡 Project Idea: BalanceBuddy
