@@ -1,33 +1,43 @@
+// routes/goalRoutes.js
 const express = require('express');
-const router  = express.Router();
-const Goal    = require('../model/goalSchema');
+const router = express.Router();
+const Goal = require('../model/goalSchema');
+const auth = require('../middleware/auth');
 
-// Create new goal
+// Apply auth middleware to all goal routes
+router.use(auth);
+
+// Create new goal (POST /api/goal)
 router.post('/goal', async (req, res) => {
-    console.log('POST /api/goals body:', req.body);
-    try {
-      const { name, target, startingDate, budget, saved, updatedDate } = req.body;
-      
-      if (!name || !target || !startingDate || !budget || saved == null || !updatedDate) {
-        return res.status(400).json({ message: 'All fields are required' });
-      }
-  
-      const newGoal = new Goal({ name, target, startingDate, updatedDate, budget, saved });
-      const savedGoal = await newGoal.save();
-      
-      console.log('New goal saved:', savedGoal);
-      res.status(201).json(savedGoal);
-    } catch (err) {
-      console.error('Error saving goal:', err);
-      res.status(500).json({ message: err.message });
-    }
-  });
-  
+  try {
+    const { name, target, startingDate, budget, saved, updatedDate } = req.body;
 
-// Get all goals
+    if (!name || target == null || !startingDate || budget == null || saved == null || !updatedDate) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const newGoal = new Goal({
+      name,
+      target,
+      startingDate,
+      updatedDate,
+      budget,
+      saved,
+      userId: req.user.id   // IMPORTANT: attach userId
+    });
+
+    const savedGoal = await newGoal.save();
+    res.status(201).json(savedGoal);
+  } catch (err) {
+    console.error('Error saving goal:', err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get all goals for logged in user (GET /api/goal)
 router.get('/goal', async (req, res) => {
   try {
-    const goals = await Goal.find();
+    const goals = await Goal.find({ userId: req.user.id }).sort({ updatedDate: -1 });
     res.json(goals);
   } catch (err) {
     console.error('Error fetching goals:', err);
@@ -35,14 +45,18 @@ router.get('/goal', async (req, res) => {
   }
 });
 
-// ✅ Update existing goal
+// Update existing goal (PUT /api/goal/:id)
 router.put('/goal/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedGoal = await Goal.findByIdAndUpdate(id, req.body, { new: true });
-    if (!updatedGoal) {
-      return res.status(404).json({ message: 'Goal not found' });
-    }
+    const updatedGoal = await Goal.findOneAndUpdate(
+      { _id: id, userId: req.user.id }, // ensure ownership
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedGoal) return res.status(404).json({ message: 'Goal not found' });
+
     res.json(updatedGoal);
   } catch (err) {
     console.error('Error updating goal:', err);
@@ -50,25 +64,19 @@ router.put('/goal/:id', async (req, res) => {
   }
 });
 
-// Delete a goal by ID
+// Delete a goal (DELETE /api/goal/:id)
 router.delete('/goal/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-      const deletedGoal = await Goal.findByIdAndDelete(id);
-  
-      if (!deletedGoal) {
-        return res.status(404).json({ message: 'Goal not found' });
-      }
-  
-      res.json({ message: 'Goal deleted successfully' });
-    } catch (err) {
-      console.error('Error deleting goal:', err);
-      res.status(500).json({ message: 'Failed to delete goal' });
-    }
-  });
+  try {
+    const { id } = req.params;
+    const deletedGoal = await Goal.findOneAndDelete({ _id: id, userId: req.user.id });
 
-  // removed duplicate GET /goal
-  
-  
+    if (!deletedGoal) return res.status(404).json({ message: 'Goal not found' });
+
+    res.json({ message: 'Goal deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting goal:', err);
+    res.status(500).json({ message: 'Failed to delete goal' });
+  }
+});
 
 module.exports = router;

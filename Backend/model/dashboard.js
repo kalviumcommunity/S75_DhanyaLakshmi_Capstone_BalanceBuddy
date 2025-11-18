@@ -1,14 +1,21 @@
 const mongoose = require('mongoose');
 
+// ----- BUDGET SCHEMA -----
 const BudgetSchema = new mongoose.Schema({
   total: Number,
   expenses: Number,
   remaining: Number,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  }
 }, { collection: 'budgets' });
 
-// Reuse the main Goal model to ensure consistent schema (with dates, etc.)
+// ----- REUSE GOAL MODEL -----
 const Goal = require('./goalSchema');
 
+// ----- TRANSACTION SCHEMA -----
 const TransactionSchema = new mongoose.Schema({
   title: String,
   category: String,
@@ -17,9 +24,13 @@ const TransactionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  }
 }, { collection: 'transactions' });
 
-// Check if the models already exist to prevent overwriting
 const Budget = mongoose.models.Budget || mongoose.model('Budget', BudgetSchema);
 const Transaction = mongoose.models.Transaction || mongoose.model('Transaction', TransactionSchema);
 

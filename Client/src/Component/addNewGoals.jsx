@@ -19,10 +19,16 @@ const AddNewGoal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting formData:', formData);  // Debug log
+    console.log('Submitting formData:', formData);
+
     try {
-      await axios.post('https://s75-dhanyalakshmi-capstone-balancebuddy.onrender.com/api/goal', formData);
-      navigate('/family/goals');  // or '/saving-goals'
+      await axios.post(
+        'https://s75-dhanyalakshmi-capstone-balancebuddy.onrender.com/api/goal',
+        formData,
+        { withCredentials: true }  // IMPORTANT FIX
+      );
+
+      navigate('/family/goals');
     } catch (err) {
       console.error('Error submitting new goal:', err);
       alert(err.response?.data?.message || 'Unknown error');
@@ -35,6 +41,7 @@ const AddNewGoal = () => {
         Add New Goals 
         <span className="popup-close" onClick={() => navigate(-1)}>✖</span>
       </h3>
+
       <form onSubmit={handleSubmit}>
         <label>Name:</label>
         <input name="name" onChange={handleChange} required />
