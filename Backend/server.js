@@ -24,7 +24,7 @@ app.use(cors({
 
 
 const URI = process.env.URI;
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 app.use('/api',userRoutes);
 app.use('/api/transactions',transactionRoute);
