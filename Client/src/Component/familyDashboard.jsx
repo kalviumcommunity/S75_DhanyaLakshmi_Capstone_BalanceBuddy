@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { FaBars } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +21,7 @@ const FamilyDashboard = () => {
     const token = document.cookie.split(';').find(c => c.trim().startsWith('token='));
     if (!token) {
       navigate('/family', { replace: true });
+      console.log(localStorage.getItem("token"))
     } else {
       fetchDashboardData();
     }
