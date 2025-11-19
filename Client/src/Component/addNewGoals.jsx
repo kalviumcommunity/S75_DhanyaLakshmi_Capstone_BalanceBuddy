@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../Styles/addGoalPopup.css';
+import '../styles/addGoalPopup.css';
 
 const AddNewGoal = () => {
   const navigate = useNavigate();

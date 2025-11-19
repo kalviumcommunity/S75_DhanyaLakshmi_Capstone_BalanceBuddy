@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import api from "../utils/axiosConfig";
-import "../Styles/transaction.css";
+import "../styles/transaction.css";
 
 export default function Transaction() {
   const [file, setFile] = useState(null);
