@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaUser, FaPlus } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import '../styles/sideBar.css'; // Ensure your styles are here
+import '../styles/SideBar.css'; // Ensure your styles are here
 
 const Sidebar = () => {
   const navigate = useNavigate();

@@ -4,8 +4,8 @@ import { FaBars } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import api from '../utils/axiosConfig';
-import Sidebar from './sideBar';
-import '../styles/familyDashboard.css';
+import Sidebar from './SideBar';
+import '../styles/FamilyDashboard.css';
 import '../styles/Sidebar.css';
 
 const FamilyDashboard = () => {
