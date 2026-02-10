@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import "../styles/addTransactionForm.css";
+import "../styles/addTransaction.css";
 import axios from "axios";
 import api from "../utils/axiosConfig";
 
