@@ -6,7 +6,7 @@ import axios from 'axios';
 import api from '../utils/axiosConfig';
 import Sidebar from './sideBar';
 import '../styles/familyDashboard.css';
-import '../styles/sidebar.css';
+import '../styles/sideBar.css';
 
 const FamilyDashboard = () => {
   const navigate = useNavigate();
