@@ -12,18 +12,18 @@ router.post('/goal', async (req, res) => {
   try {
     const { name, target, startingDate, budget, saved, updatedDate } = req.body;
 
-    if (!name || target == null || !startingDate || budget == null || saved == null || !updatedDate) {
-      return res.status(400).json({ message: 'All fields are required' });
+    if (!name || target == null || !startingDate || budget == null) {
+      return res.status(400).json({ message: 'Name, target, startingDate and budget are required' });
     }
 
     const newGoal = new Goal({
       name,
       target,
       startingDate,
-      updatedDate,
+      updatedDate: updatedDate || Date.now(),
       budget,
-      saved,
-      userId: req.user.id   // IMPORTANT: attach userId
+      saved: saved ?? 0,
+      userId: req.user.id
     });
 
     const savedGoal = await newGoal.save();

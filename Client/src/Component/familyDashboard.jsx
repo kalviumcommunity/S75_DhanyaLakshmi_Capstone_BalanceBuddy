@@ -18,13 +18,13 @@ const FamilyDashboard = () => {
   const [showBudgetForm, setShowBudgetForm] = useState(false);
 
   useEffect(() => {
-    const token = document.cookie.split(';').find(c => c.trim().startsWith('token='));
-    if (!token) {
-      navigate('/family', { replace: true });
-      console.log(localStorage.getItem("token"))
-    } else {
-      fetchDashboardData();
+    const tokenCookie = document.cookie.split(';').find(c => c.trim().startsWith('token='));
+    if (!tokenCookie) {
+      console.log('No auth token found, redirecting to login');
+      navigate('/login', { replace: true });
+      return;
     }
+    fetchDashboardData();
   }, [navigate]);
 
   const fetchDashboardData = async () => {
@@ -68,9 +68,7 @@ const FamilyDashboard = () => {
     }
   };
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+  
 
   return (
     <div className="main-layout">

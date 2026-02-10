@@ -22,7 +22,7 @@ const goalSchema = new mongoose.Schema({
   },
   updatedDate: {
     type: Date,
-    required: true
+    default: Date.now
   },
   budget: {
     type: Number,

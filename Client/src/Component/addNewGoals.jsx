@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../utils/axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AddGoalPopup.css';
 
@@ -19,15 +19,20 @@ const AddNewGoal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting formData:', formData);
+    // Coerce numeric fields and ensure optional fields have sensible defaults
+    const payload = {
+      name: formData.name,
+      target: formData.target !== '' ? Number(formData.target) : null,
+      startingDate: formData.startingDate || undefined,
+      updatedDate: formData.updatedDate || new Date().toISOString(),
+      budget: formData.budget !== '' ? Number(formData.budget) : null,
+      saved: 0
+    };
+
+    console.log('Submitting goal payload:', payload);
 
     try {
-      await axios.post(
-        'https://s75-dhanyalakshmi-capstone-balancebuddy.onrender.com/api/goal',
-        formData,
-        { withCredentials: true }  // IMPORTANT FIX
-      );
-
+      await api.post('/goal', payload);
       navigate('/family/goals');
     } catch (err) {
       console.error('Error submitting new goal:', err);

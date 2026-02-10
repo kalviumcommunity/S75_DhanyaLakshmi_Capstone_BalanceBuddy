@@ -92,6 +92,11 @@ const SavingGoals = () => {
 
         setGoals(prev => prev.map(g => g._id === editId ? updatedGoal : g));
         setSuccessMsg('Updated!');
+        // Close and reset the form after successful update
+        setShowForm(false);
+        setIsEditing(false);
+        setEditId(null);
+        setNewGoal({ name: '', target: '', startingDate: '', updatedDate: '', budget: '', saved: '' });
 
       } else {
         const res = await axios.post(
@@ -228,9 +233,13 @@ const SavingGoals = () => {
           const isValidDate = (d) => d instanceof Date && !isNaN(d.getTime());
           const endForDuration = isValidDate(updatedExplicitDate) ? updatedExplicitDate : new Date();
 
-          const durationDays = isValidDate(startDate)
-            ? Math.max(0, Math.ceil((endForDuration - startDate) / (1000 * 60 * 60 * 24)))
-            : (goal.target ? Number(goal.target) : 0);
+          // Prefer showing the planned `target` (days) if provided;
+          // otherwise fall back to computed elapsed days from start to updated/now.
+          const durationDays = goal.target
+            ? Number(goal.target)
+            : (isValidDate(startDate)
+              ? Math.max(0, Math.ceil((endForDuration - startDate) / (1000 * 60 * 60 * 24)))
+              : 0);
 
           return (
             <div className="goal-card" key={goal._id}>

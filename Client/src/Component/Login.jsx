@@ -33,34 +33,34 @@ const Login = () => {
     if (Object.keys(validationErrors).length === 0) {
       try {
         console.log('Attempting to log in with:', { email: formData.email });
-        
-        // Use the API instance for the login request
-        const response = await api.post('https://s75-dhanyalakshmi-capstone-balancebuddy.onrender.com/api/login', {
+        // Use the API instance for the login request (relative path so instance config is used)
+        const response = await api.post('/login', {
           mail: formData.email,  // Using 'mail' to match backend field name
           password: formData.password
         });
 
         console.log('Login successful, response:', response.data);
-        
-        // if (response.data.token) {
-        //   // Store token in localStorage
-        //   localStorage.setItem('authToken', response.data.token);
-          
-        //   // Set token in cookies with secure flag if in production
-        //   const isProduction = process.env.NODE_ENV === 'production';
-        //   const secureFlag = isProduction ? '; Secure' : '';
-        //   document.cookie = `token=${response.data.token}; path=/; max-age=${15 * 60 * 60}${secureFlag}`;
-          
-        //   console.log('Authentication tokens stored successfully');
-        //   setMessage('Login successful! Redirecting...');
-          
-          // Redirect after a short delay
-          // setTimeout(() => navigate('/home'), 1000);
+
+        // If the backend returns a token, store it and proceed
+        if (response.data && response.data.token) {
+          const token = response.data.token;
+          // Store token in localStorage
+          localStorage.setItem('authToken', token);
+
+          // Set token in cookie (adjust flags for production as needed)
+          const isProduction = process.env.NODE_ENV === 'production';
+          const secureFlag = isProduction ? '; Secure' : '';
+          document.cookie = `token=${token}; path=/; max-age=${15 * 60 * 60}${secureFlag}`;
+
+          console.log('Authentication tokens stored successfully');
+          setMessage('Login successful! Redirecting...');
+
+          // Redirect to home (or dashboard)
           navigate('/home');
-        // } else {
-        //   console.warn('Login successful but no token received');
-        //   setMessage('Login successful, but no authentication token received');
-        // }
+        } else {
+          console.warn('Login successful but no token received');
+          setMessage('Login successful, but no authentication token received');
+        }
       } catch (err) {
         console.error('Login error details:', {
           message: err.message,
