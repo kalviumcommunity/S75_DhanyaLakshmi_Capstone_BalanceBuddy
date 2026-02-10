@@ -48,7 +48,7 @@ const Login = () => {
           localStorage.setItem('authToken', token);
 
           // Set token in cookie (adjust flags for production as needed)
-          const isProduction = process.env.NODE_ENV === 'production';
+          const isProduction = import.meta.env.MODE === 'production';
           const secureFlag = isProduction ? '; Secure' : '';
           document.cookie = `token=${token}; path=/; max-age=${15 * 60 * 60}${secureFlag}`;
 
