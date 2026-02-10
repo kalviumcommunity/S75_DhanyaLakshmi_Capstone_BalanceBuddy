@@ -96,4 +96,5 @@
     font-size: 12px;
     text-align: left;
   }
+  /* Touch file to ensure correct casing is recorded by Git for CI builds */
   
